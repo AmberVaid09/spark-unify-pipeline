@@ -27,9 +27,11 @@ object SessionInitializer {
    * @param config Config
    * @return
    */
-  def getSparkOptions(config: Config): Map[String, String] =
+  def getSparkOptions(config: Config): Map[String, String] = {
+    val cleanText = (value : String) => value.replaceAll("\"","")
     config.getConfig(Constants.SPARK_OPTIONS).entrySet().asScala.flatMap { option =>
-      Map(option.getKey -> option.getValue.render().replace("\"", ""))
+      Map(cleanText(option.getKey) -> cleanText(option.getValue.render()))
     }.toMap
+  }
 
 }
