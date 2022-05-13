@@ -5,4 +5,5 @@ object Constants {
   val CONFIG_PATH = "config_path"
   val DEFAULT_CONFIG_PATH = "application.conf"
   val SPARK_OPTIONS = "spark_options"
+  val SECRETS = "secrets"
 }

@@ -5,9 +5,10 @@ import com.unify.pipeline.test.util.BaseSpec
 
 class ReadConfigSpec extends BaseSpec {
   "ReadConfig" should "return Config" in {
-    val config = ReadConfig(Array("config_path=config_test.conf", "active_system=some_source_system"))
+    val confPath = "config_validation/config_test.conf"
+    val config = ReadConfig(Array(s"config_path=$confPath", "active_system=some_source_system"))
     assert(config.getString("name") == "unify_pipeline" &&
-      config.getString("program_arguments.config_path") == "config_test.conf" &&
+      config.getString("program_arguments.config_path") == confPath &&
       config.getString("program_arguments.active_system") == "some_source_system")
   }
 
