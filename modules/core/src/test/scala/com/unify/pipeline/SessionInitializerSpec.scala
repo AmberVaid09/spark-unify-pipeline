@@ -1,15 +1,9 @@
 package com.unify.pipeline
 
-import com.unify.pipeline.schema.Application
 import com.unify.pipeline.session.SessionInitializer
-import com.unify.pipeline.test.util.BaseSpec
+import com.unify.pipeline.test.util.{BaseSpec, DefaultConfig}
 
-class SessionInitializerSpec extends BaseSpec {
-
-  val applicationConfig: Application.Config = Application.Config(
-    sparkOptions = Some(Map("spark.master" -> "local", "spark.app.name" -> "unify")),
-    cloudAlias = Some(Map("gcp" -> Map("gcp.key" -> "gcp_pass"), "aws" -> Map("aws.key" -> "aws_pass"))),
-    fileIo = None)
+class SessionInitializerSpec extends BaseSpec with DefaultConfig {
 
   "SessionInitializer" should "create and validate spark session" in {
     System.setProperty("hadoop.home.dir", "C:\\Users\\amber\\Downloads\\hadooputils\\hadoop")

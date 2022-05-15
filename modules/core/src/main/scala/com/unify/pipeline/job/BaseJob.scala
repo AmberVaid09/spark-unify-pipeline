@@ -25,7 +25,7 @@ trait BaseJob {
    * @param config UnifyConfig
    * @return Dataframe
    */
-  def extract(spark: SparkSession, config: Payload): DataFrame
+  def extract(spark: SparkSession, config: UnifyConfig): DataFrame
 
   /**
    * Transforms data as per config
@@ -53,7 +53,7 @@ trait BaseJob {
   def main(args: Array[String]): Unit = {
     val config = getConfig(args)
     val spark = SessionInitializer.create(config.appConfig)
-    val dataFrame = extract(spark, config.pipeline)
+    val dataFrame = extract(spark, config)
     val transformedDataFrame = transform(dataFrame, config.pipeline)
     load(transformedDataFrame, config.pipeline)
   }
