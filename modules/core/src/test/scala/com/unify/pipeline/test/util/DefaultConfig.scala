@@ -7,20 +7,20 @@ trait DefaultConfig {
 
   val applicationConfig: Application.Config = Application.Config(
     sparkOptions = Some(Map("key" -> "value", "spark.app.name" -> "unify", "spark.master" -> "local")),
-    cloudAlias = Some(Map("gcp" -> Map("gcp.key" -> "pass"), "aws" -> Map("aws.key" -> "pass"))),
+    cloudAlias = Some(Map("gcp" -> Map("gcp.key" -> "gcp_pass"), "aws" -> Map("aws.key" -> "aws_pass"))),
     fileIo = Some(FileIo(input = Map("csv" -> Map("header" -> "true")), output = Map("json" -> Map("header" -> "false")))))
 
   val pipelinePayload: Pipeline.Payload = Pipeline.Payload(
-    name = "covid_tbl",
+    name = "emp_tbl",
     source = Pipeline.Storage(
-      path = "modules/core/src/test/resources/input/file_read_test/random_data.csv",
+      path = "modules/core/src/test/resources/data/input/file_read_test/random_data.csv",
       fileFormat = "csv",
       partition = None
     ),
     target = Pipeline.Storage(
-      path = "/user/path/standard/covid_tbl",
+      path = "modules/core/src/test/resources/output/file_output_test/",
       fileFormat = "orc",
-      partition = Some("part_key")
+      partition = None
     ),
     columns = Seq(
       Pipeline.ColumnMetaData(
