@@ -3,7 +3,12 @@ package com.unify.pipeline.test.util
 import com.unify.pipeline.schema.Application.FileIo
 import com.unify.pipeline.schema.{Application, Pipeline, UnifyConfig}
 
+import java.util.UUID
+
 trait DefaultConfig {
+
+  def getUUID : String = UUID.randomUUID().toString
+  val dump : String = s"modules/core/target/temp_output/$getUUID"
 
   val applicationConfig: Application.Config = Application.Config(
     sparkOptions = Some(Map("key" -> "value", "spark.app.name" -> "unify", "spark.master" -> "local")),
@@ -18,7 +23,7 @@ trait DefaultConfig {
       partition = None
     ),
     target = Pipeline.Storage(
-      path = "modules/core/src/test/resources/output/file_output_test/",
+      path = s"$dump/file_output_test/",
       fileFormat = "orc",
       partition = None
     ),

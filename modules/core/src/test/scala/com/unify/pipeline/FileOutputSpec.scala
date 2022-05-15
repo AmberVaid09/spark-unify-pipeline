@@ -7,12 +7,14 @@ class FileOutputSpec extends SparkSessionBaseSpec with DefaultConfig {
 
   "FileReader" should "read data via config" in {
     val df = FileReader.read(spark, unifyConfig)
-    FileWriter.write(df, unifyConfig)
+    val bool = try {
+      FileWriter.write(df, unifyConfig)
+      true
+    } catch {
+      case _: Exception => false
+    }
+    assert(bool)
   }
 
-  "FileReader" should " abc" in {
-    val df = FileReader.read(spark, unifyConfig)
-    df.repartition(1).write.format("orc").mode("overwrite").save("modules/core/src/test/resources/data/output/file_output_test/")
-  }
 
 }
