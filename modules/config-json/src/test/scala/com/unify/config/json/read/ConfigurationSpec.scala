@@ -1,6 +1,7 @@
 package com.unify.config.json.read
 
 import com.unify.pipeline.constants.ExceptionInfo.IncorrectConfig
+import com.unify.pipeline.schema.Application.FileIo
 import com.unify.pipeline.schema.{Application, Pipeline}
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.flatspec.AnyFlatSpec
@@ -11,7 +12,8 @@ class ConfigurationSpec extends AnyFlatSpec with BeforeAndAfterAll {
     val config = Configuration.getSystemConfig("spark_app.conf")
     val expectedOutput = Application.Config(
       sparkOptions = Some(Map("key" -> "value", "spark.app.name" -> "unify")),
-      cloudAlias = Some(Map("gcp" -> Map("gcp.key" -> "pass"), "aws" -> Map("aws.key" -> "pass"))))
+      cloudAlias = Some(Map("gcp" -> Map("gcp.key" -> "pass"), "aws" -> Map("aws.key" -> "pass"))),
+      fileIo = Some(FileIo(input = Map("csv" -> Map("header" -> "true")), output = Map("json" -> Map("header" -> "false")))))
     assert(config == expectedOutput)
   }
 

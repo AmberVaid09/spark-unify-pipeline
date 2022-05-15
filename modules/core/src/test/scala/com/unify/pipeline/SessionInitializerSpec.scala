@@ -8,7 +8,8 @@ class SessionInitializerSpec extends BaseSpec {
 
   val applicationConfig: Application.Config = Application.Config(
     sparkOptions = Some(Map("spark.master" -> "local", "spark.app.name" -> "unify")),
-    cloudAlias = Some(Map("gcp" -> Map("gcp.key" -> "gcp_pass"), "aws" -> Map("aws.key" -> "aws_pass"))))
+    cloudAlias = Some(Map("gcp" -> Map("gcp.key" -> "gcp_pass"), "aws" -> Map("aws.key" -> "aws_pass"))),
+    fileIo = None)
 
   "SessionInitializer" should "create and validate spark session" in {
     System.setProperty("hadoop.home.dir", "C:\\Users\\amber\\Downloads\\hadooputils\\hadoop")
@@ -20,11 +21,11 @@ class SessionInitializerSpec extends BaseSpec {
     System.setProperty("hadoop.home.dir", "C:\\Users\\amber\\Downloads\\hadooputils\\hadoop")
     val spark = SessionInitializer.create(applicationConfig)
     // Updating hadoop config to gcp path
-    SessionInitializer.updateSparkHadoopOptions(spark,applicationConfig,"gcp")
+    SessionInitializer.updateSparkHadoopOptions(spark, applicationConfig, "gcp")
     assert(spark.sparkContext.hadoopConfiguration.get("gcp.key") == "gcp_pass")
 
     // Updating hadoop config to aws path
-    SessionInitializer.updateSparkHadoopOptions(spark,applicationConfig,"aws")
+    SessionInitializer.updateSparkHadoopOptions(spark, applicationConfig, "aws")
     assert(spark.sparkContext.hadoopConfiguration.get("aws.key") == "aws_pass")
   }
 
