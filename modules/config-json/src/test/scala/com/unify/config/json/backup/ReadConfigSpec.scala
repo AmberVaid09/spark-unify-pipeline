@@ -1,7 +1,7 @@
 package com.unify.config.json.backup
 
 import com.unify.pipeline.test.util.BaseSpec
-
+@deprecated
 class ReadConfigSpec extends BaseSpec {
 
 

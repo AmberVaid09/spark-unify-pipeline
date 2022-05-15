@@ -1,4 +1,4 @@
-package com.unify.config.json.schema
+package com.unify.pipeline.schema
 
 object Pipeline {
 

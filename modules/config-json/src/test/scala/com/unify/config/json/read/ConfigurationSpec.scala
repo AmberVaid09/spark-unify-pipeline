@@ -1,7 +1,7 @@
 package com.unify.config.json.read
 
-import com.unify.config.json.schema.{Application, Pipeline}
 import com.unify.pipeline.constants.ExceptionInfo.IncorrectConfig
+import com.unify.pipeline.schema.{Application, Pipeline}
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.flatspec.AnyFlatSpec
 

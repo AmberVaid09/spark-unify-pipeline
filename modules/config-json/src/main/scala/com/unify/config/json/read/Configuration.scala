@@ -1,9 +1,10 @@
 package com.unify.config.json.read
 
-import com.unify.config.json.schema.{Application, Pipeline, UnifyConfig}
 import com.unify.pipeline.constants.ApplicationLogger
 import com.unify.pipeline.constants.Constants.{ACTIVE_SYSTEM, DEFAULT_CONFIG_PATH, SYSTEM_CONFIG_PATH}
 import com.unify.pipeline.constants.ExceptionInfo.IncorrectConfig
+import com.unify.pipeline.schema
+import com.unify.pipeline.schema.{Application, Pipeline, UnifyConfig}
 import pureconfig.ConfigSource
 import pureconfig.generic.auto._
 
@@ -29,7 +30,7 @@ object Configuration extends ApplicationLogger {
     val systemConfigPath = appConfigs.getOrElse(SYSTEM_CONFIG_PATH, DEFAULT_CONFIG_PATH)
     if (systemConfigPath == DEFAULT_CONFIG_PATH) logger.warn(s"No config_path found, Reading from $DEFAULT_CONFIG_PATH")
 
-    UnifyConfig(
+    schema.UnifyConfig(
       appConfig = getSystemConfig(systemConfigPath),
       pipeline = getPipelinePayload(appConfigs(ACTIVE_SYSTEM))
     )

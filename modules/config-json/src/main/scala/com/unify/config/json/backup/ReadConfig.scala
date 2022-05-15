@@ -7,6 +7,7 @@ import com.unify.pipeline.constants.ExceptionInfo.IncorrectConfig
 
 import scala.collection.JavaConverters._
 
+@deprecated
 object ReadConfig extends ApplicationLogger {
 
   /**
