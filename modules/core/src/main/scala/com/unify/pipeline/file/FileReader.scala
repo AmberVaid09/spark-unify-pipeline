@@ -35,7 +35,7 @@ object FileReader {
    * @return DataFrame
    */
   def read(spark: SparkSession, fileFormat: String, options: Map[String, String], path: String): DataFrame =
-    spark.read.format(fileFormat).options(options.asJava).load(path)
+    spark.read.format(fileFormat).options(options).load(path)
 
 
   /**

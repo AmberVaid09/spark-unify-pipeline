@@ -6,15 +6,15 @@ import com.unify.pipeline.schema.{Application, Pipeline, UnifyConfig}
 trait DefaultConfig {
 
   val applicationConfig: Application.Config = Application.Config(
-    sparkOptions = Some(Map("key" -> "value", "spark.app.name" -> "unify")),
+    sparkOptions = Some(Map("key" -> "value", "spark.app.name" -> "unify", "spark.master" -> "local")),
     cloudAlias = Some(Map("gcp" -> Map("gcp.key" -> "pass"), "aws" -> Map("aws.key" -> "pass"))),
     fileIo = Some(FileIo(input = Map("csv" -> Map("header" -> "true")), output = Map("json" -> Map("header" -> "false")))))
 
   val pipelinePayload: Pipeline.Payload = Pipeline.Payload(
     name = "covid_tbl",
     source = Pipeline.Storage(
-      path = "/user/path/staging/covid_tbl",
-      fileFormat = "json",
+      path = "modules/core/src/test/resources/input/file_read_test/random_data.csv",
+      fileFormat = "csv",
       partition = None
     ),
     target = Pipeline.Storage(
