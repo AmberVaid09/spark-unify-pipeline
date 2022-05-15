@@ -16,7 +16,7 @@ class FileInputSpec extends SparkSessionBaseSpec with DefaultConfig {
   }
 
   "FileReader" should "read data via params" in {
-    val df = FileReader.read(spark, "csv", "modules/core/src/test/resources/input/file_read_test/random_data.csv")
+    val df = FileReader.read(spark, "orc", "modules/core/src/test/resources/data/input/file_read_orc/")
     assert(validateData(df))
   }
 

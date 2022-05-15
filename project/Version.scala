@@ -1,5 +1,5 @@
 object Version {
-  val sparkVersion = "3.1.3"
+  val sparkVersion = "3.2.1"
   val configVersion = "1.4.2"
   val pureConfigVersion = "0.17.1"
   val logsVersion = "1.2.11"
