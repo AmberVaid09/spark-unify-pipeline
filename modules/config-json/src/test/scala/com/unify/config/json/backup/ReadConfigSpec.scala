@@ -1,4 +1,4 @@
-package com.unify.pipeline.configuration
+package com.unify.config.json.backup
 
 import com.unify.pipeline.constants.ExceptionInfo.IncorrectConfig
 import com.unify.pipeline.test.util.BaseSpec

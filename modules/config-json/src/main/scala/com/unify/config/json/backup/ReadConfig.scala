@@ -1,4 +1,4 @@
-package com.unify.pipeline.configuration
+package com.unify.config.json.backup
 
 import com.typesafe.config.{Config, ConfigFactory}
 import com.unify.pipeline.constants.ApplicationLogger
