@@ -21,14 +21,14 @@ class ConfigurationSpec extends AnyFlatSpec with BeforeAndAfterAll {
     val config = Configuration.getPipelinePayload("pipeline_example_1.conf")
     val expectedOutput = Pipeline.Payload(
       name = "covid_tbl",
-      source = Pipeline.Storage(
+      source = Pipeline.SourceStorage(
         path = "/user/path/staging/covid_tbl",
-        fileFormat = "json",
-        partition = None
+        fileFormat = "json"
       ),
-      target = Pipeline.Storage(
+      target = Pipeline.TargetStorage(
         path = "/user/path/standard/covid_tbl",
         fileFormat = "orc",
+        saveMode = "overwrite",
         partition = Some("part_key")
       ),
       columns = Seq(
@@ -85,6 +85,5 @@ class ConfigurationSpec extends AnyFlatSpec with BeforeAndAfterAll {
       Configuration(Array())
     }
   }
-
 
 }

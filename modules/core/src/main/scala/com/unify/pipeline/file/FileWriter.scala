@@ -4,7 +4,6 @@ import com.unify.pipeline.schema.UnifyConfig
 import org.apache.spark.sql.DataFrame
 
 object FileWriter {
-  /** Where's mode ????  */
 
   /**
    * Write file to a Path based on config
@@ -20,45 +19,56 @@ object FileWriter {
       case None => Map.empty[String, String]
     }
 
-    write(dataFrame, target.fileFormat, fileConfigs, target.partition, target.path)
+    write(dataFrame, target.fileFormat, fileConfigs, target.partition, target.saveMode, target.path)
   }
 
   /**
    * Write file to a Path based on config
    *
-   * @param dataFrame   Dataframe
-   * @param fileFormat  File format
+   * @param dataFrame   Dataframe to write
+   * @param fileFormat  File format to write
    * @param fileConfigs file configs
    * @param partitions  partitions
+   * @param saveMode    Save Mode takes values as (overwrite, append, ignore, errorifexists)
    * @param path        path
    */
-  def write(dataFrame: DataFrame, fileFormat: String, fileConfigs: Map[String, String], partitions: Option[String], path: String): Unit =
-    dataFrame.write.format(fileFormat).options(fileConfigs).partitionBy(getPartitions(partitions): _*).save(path)
+  def write(dataFrame: DataFrame, fileFormat: String, fileConfigs: Map[String, String],
+            partitions: Option[String], saveMode: String, path: String): Unit =
+    dataFrame
+      .write
+      .format(fileFormat)
+      .options(fileConfigs)
+      .partitionBy(getPartitions(partitions): _*)
+      .mode(saveMode)
+      .save(path)
 
   /**
    * Write file to a Path based on config
    *
-   * @param dataFrame   Dataframe
-   * @param fileFormat  File format
-   * @param partitions  partitions
-   * @param path        path
+   * @param dataFrame  Dataframe to write
+   * @param fileFormat File format to write
+   * @param partitions partitions
+   * @param mode       Save Mode takes values as (overwrite, append, ignore, errorifexists)
+   * @param path       path
    */
-  def write(dataFrame: DataFrame, fileFormat: String, partitions: Option[String], path: String): Unit =
-    dataFrame.write.format(fileFormat).partitionBy(getPartitions(partitions): _*).save(path)
+  def write(dataFrame: DataFrame, fileFormat: String, partitions: Option[String], mode: String, path: String): Unit =
+    dataFrame.write.format(fileFormat).partitionBy(getPartitions(partitions): _*).mode(mode).save(path)
 
   /**
    * Write file to a Path based on config
    *
-   * @param dataFrame   Dataframe
-   * @param fileFormat  File format
-   * @param path        path
+   * @param dataFrame  Dataframe to write
+   * @param fileFormat File format to write
+   * @param mode       Save Mode takes values as (overwrite, append, ignore, errorifexists)
+   * @param path       path
    */
-  def write(dataFrame: DataFrame, fileFormat: String, path: String): Unit =
-    dataFrame.write.format(fileFormat).save(path)
+  def write(dataFrame: DataFrame, fileFormat: String, mode: String, path: String): Unit =
+    dataFrame.write.format(fileFormat).mode(mode).save(path)
 
 
   /**
    * Returns partition for writing
+   *
    * @param partition Partitions 
    * @return
    */

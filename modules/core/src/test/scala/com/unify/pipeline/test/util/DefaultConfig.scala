@@ -17,14 +17,14 @@ trait DefaultConfig {
 
   val pipelinePayload: Pipeline.Payload = Pipeline.Payload(
     name = "emp_tbl",
-    source = Pipeline.Storage(
+    source = Pipeline.SourceStorage(
       path = "modules/core/src/test/resources/data/input/file_read_test/random_data.csv",
-      fileFormat = "csv",
-      partition = None
+      fileFormat = "csv"
     ),
-    target = Pipeline.Storage(
+    target = Pipeline.TargetStorage(
       path = s"$dump/file_output_test/",
       fileFormat = "orc",
+      saveMode = "overwrite",
       partition = None
     ),
     columns = Seq(

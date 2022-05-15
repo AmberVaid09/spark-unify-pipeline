@@ -4,14 +4,19 @@ object Pipeline {
 
   case class Payload(
                       name: String,
-                      source: Storage,
-                      target: Storage,
+                      source: SourceStorage,
+                      target: TargetStorage,
                       columns: Seq[ColumnMetaData])
 
-  case class Storage(
+  case class SourceStorage(
                       path: String,
-                      fileFormat: String,
-                      partition: Option[String])
+                      fileFormat: String)
+
+  case class TargetStorage(
+                            path: String,
+                            fileFormat: String,
+                            saveMode : String,
+                            partition: Option[String])
 
   case class ColumnMetaData(
                              sourceName: String,
