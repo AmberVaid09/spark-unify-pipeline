@@ -1,11 +1,8 @@
 package com.unify.pipeline.session
 
-import com.typesafe.config.Config
-import com.unify.pipeline.constants.Constants
+import com.unify.pipeline.schema.Application
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
-
-import scala.collection.JavaConverters._
 
 object SessionInitializer {
   /**
@@ -17,8 +14,9 @@ object SessionInitializer {
    * @param config Config
    * @return SparkSession
    */
-  def create(config: Config): SparkSession = {
-    val sparkConf = new SparkConf().setAll(getSparkOptions(config, Constants.SPARK_OPTIONS))
+  def create(config: Application.Config): SparkSession = {
+    val sparkOptions = config.sparkOptions.getOrElse(Map.empty)
+    val sparkConf = new SparkConf().setAll(sparkOptions)
     SparkSession.builder().config(sparkConf).getOrCreate()
   }
 
@@ -30,22 +28,9 @@ object SessionInitializer {
    * @param config    Config
    * @param aliasPath Alias path found in active system for source and target config
    */
-  def updateSparkHadoopOptions(spark: SparkSession, config: Config, aliasPath: String): Unit =
-    getSparkOptions(config, aliasPath).foreach { self =>
+  def updateSparkHadoopOptions(spark: SparkSession, config: Application.Config, aliasPath: String): Unit =
+    config.cloudAlias.getOrElse(Map.empty).getOrElse(aliasPath, Map.empty).foreach { self =>
       spark.sparkContext.hadoopConfiguration.set(self._1, self._2)
     }
-
-  /**
-   * Returns Spark options
-   *
-   * @param config Config
-   * @return
-   */
-  def getSparkOptions(config: Config, path: String): Map[String, String] = {
-    val cleanText = (value: String) => value.replaceAll("\"", "")
-    config.getConfig(path).entrySet().asScala.flatMap { option =>
-      Map(cleanText(option.getKey) -> cleanText(option.getValue.render()))
-    }.toMap
-  }
 
 }
