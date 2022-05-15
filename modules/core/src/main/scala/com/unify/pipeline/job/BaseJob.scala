@@ -43,7 +43,7 @@ trait BaseJob {
    * @param config    UnifyConfig
    * @return
    */
-  def load(dataFrame: DataFrame, config: Payload): Boolean
+  def load(dataFrame: DataFrame, config: UnifyConfig): Unit
 
   /**
    * Main method
@@ -55,6 +55,6 @@ trait BaseJob {
     val spark = SessionInitializer.create(config.appConfig)
     val dataFrame = extract(spark, config)
     val transformedDataFrame = transform(dataFrame, config.pipeline)
-    load(transformedDataFrame, config.pipeline)
+    load(transformedDataFrame, config)
   }
 }
