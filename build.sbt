@@ -18,7 +18,7 @@ lazy val core = (project in file(s"$subProjectName/core"))
   .settings(
     name := "core",
     crossScalaVersions := scalaVersionsToCompile,
-    libraryDependencies ++= sparkDependencies ++ configDependencies :+ logDependencies :+ testDependencies
+    libraryDependencies ++= sparkDependencies :+ logDependencies :+ testDependencies
   )
 
 lazy val configJSON = (project in file(s"$subProjectName/config-json"))
