@@ -1,4 +1,4 @@
-package com.unify.pipeline.configuration
+package com.unify.config.json.backup
 
 import com.typesafe.config.{Config, ConfigFactory}
 import com.unify.pipeline.constants.ApplicationLogger
@@ -7,6 +7,7 @@ import com.unify.pipeline.constants.ExceptionInfo.IncorrectConfig
 
 import scala.collection.JavaConverters._
 
+@deprecated
 object ReadConfig extends ApplicationLogger {
 
   /**
@@ -17,6 +18,7 @@ object ReadConfig extends ApplicationLogger {
    * -> Read configPath
    * -> Get active system from config
    * -> Update config with ConfigPath + ENV + program args
+   * -> [todo] :- should update secrets from secrets.conf(placeholder) and env pick secrets
    *
    * @param arguments Program arguments
    * @return Config
@@ -30,7 +32,7 @@ object ReadConfig extends ApplicationLogger {
     val configPath = appConfigs.getOrElse(CONFIG_PATH, DEFAULT_CONFIG_PATH)
     if (configPath == DEFAULT_CONFIG_PATH) logger.warn(s"No config_path found, Reading from $DEFAULT_CONFIG_PATH")
 
-    ConfigFactory.load(configPath)
+    ConfigFactory.load(configPath) // update secrets with fallback with config (secrets)
       .withFallback(ConfigFactory.parseString(mapToJSON(appConfigs, "program_arguments")))
   }
 
@@ -79,5 +81,11 @@ object ReadConfig extends ApplicationLogger {
       throw new IncorrectConfig(s"Missing MandatoryConfig ${missingMandatoryConfig.mkString(",")}")
     else true
   }
+
+  def updateSecrets(config: Config, appArgs: Map[String, String]): Map[String, String] = {
+    config.getConfig(SECRETS).entrySet().asScala.map(_.getKey).flatMap { self =>
+      Map(self -> appArgs.getOrElse(self, ""))
+    }
+  }.toMap
 
 }
