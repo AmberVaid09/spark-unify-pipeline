@@ -51,7 +51,7 @@ trait DefaultConfig {
       Pipeline.ColumnMetaData(
         sourceName = "currency",
         targetName = Some("expenditure"),
-        targetType = Some("decimal"),
+        targetType = Some("decimal(10,3)"),
         transformation = Some(Pipeline.RegexExp(pattern = "\\$", replacement = "")))
     )
   )
