@@ -32,7 +32,7 @@ object Transform {
     /**
      * @return DataType : gets datatype for column to cast to
      */
-    def getDataType : DataType = column.targetType.getOrElse("string") match {
+    def getDataType : DataType = column.targetType.getOrElse("string").toLowerCase match {
       case "int" | "integer" => IntegerType
       case "long" => LongType
       case "float" => FloatType
@@ -47,9 +47,9 @@ object Transform {
     /**
      * @return Column : Performs transformation on column
      */
-    def transformedColumn: Column = column.transformation.get match {
-      case ToUpper => lower(getColumn)
-      case ToLower => upper(getColumn)
+    def transformedColumn: Column = column.transformation.getOrElse() match {
+      case ToLower => lower(getColumn)
+      case ToUpper => upper(getColumn)
       case RegexExp(pattern, replacement) => regexp_replace(getColumn , pattern, replacement)
       case _ => getColumn
     }

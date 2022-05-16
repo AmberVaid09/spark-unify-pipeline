@@ -29,20 +29,30 @@ trait DefaultConfig {
     ),
     columns = Seq(
       Pipeline.ColumnMetaData(
-        sourceName = "id",
-        targetName = None,
-        targetType = Some("int"),
+        sourceName = "name",
+        targetName = Some("emp_name"),
+        targetType = Some("string"),
         transformation = None),
       Pipeline.ColumnMetaData(
-        sourceName = "person_name",
-        targetName = Some("name"),
+        sourceName = "email",
+        targetName = Some("email"),
         targetType = Some("string"),
-        transformation = Some(Pipeline.ToUpper)),
+        transformation = None),
       Pipeline.ColumnMetaData(
-        sourceName = "email_address",
-        targetName = Some("email_id"),
+        sourceName = "region",
+        targetName = Some("state"),
         targetType = Some("string"),
-        transformation = Some(Pipeline.RegexExp(pattern = "some_pattern", replacement = "some_replacement")))
+        transformation = None),
+      Pipeline.ColumnMetaData(
+        sourceName = "text",
+        targetName = Some("desc"),
+        targetType = Some("string"),
+        transformation = Some(Pipeline.ToLower)),
+      Pipeline.ColumnMetaData(
+        sourceName = "currency",
+        targetName = Some("expenditure"),
+        targetType = Some("decimal"),
+        transformation = Some(Pipeline.RegexExp(pattern = "\\$", replacement = "")))
     )
   )
 
