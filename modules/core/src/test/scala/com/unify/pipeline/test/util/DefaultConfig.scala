@@ -7,8 +7,9 @@ import java.util.UUID
 
 trait DefaultConfig {
 
-  def getUUID : String = UUID.randomUUID().toString
-  val dump : String = s"modules/core/target/temp_output/$getUUID"
+  def getUUID: String = UUID.randomUUID().toString
+
+  val dump: String = s"modules/core/target/temp_output/$getUUID"
 
   val applicationConfig: Application.Config = Application.Config(
     sparkOptions = Some(Map("key" -> "value", "spark.app.name" -> "unify", "spark.master" -> "local")),
@@ -47,12 +48,12 @@ trait DefaultConfig {
         sourceName = "text",
         targetName = Some("desc"),
         targetType = Some("string"),
-        transformation = Some(Pipeline.ToLower)),
+        transformation = Some(Seq(Pipeline.ToLower, Pipeline.ToUpper, Pipeline.ToLower))),
       Pipeline.ColumnMetaData(
         sourceName = "currency",
         targetName = Some("expenditure"),
         targetType = Some("decimal(10,3)"),
-        transformation = Some(Pipeline.RegexExp(pattern = "\\$", replacement = "")))
+        transformation = Some(Seq(Pipeline.RegexExp(pattern = "\\$", replacement = ""))))
     )
   )
 

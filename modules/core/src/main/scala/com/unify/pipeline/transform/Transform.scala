@@ -47,13 +47,22 @@ object Transform {
     /**
      * @return Column : Performs transformation on column
      */
-    def transformedColumn: Column = column.transformation.getOrElse() match {
-      case ToLower => lower(getColumn)
-      case ToUpper => upper(getColumn)
-      case RegexExp(pattern, replacement) => regexp_replace(getColumn, pattern, replacement)
-      case _ => getColumn
-    }
+    def transformedColumn: Column = column
+      .transformation.getOrElse(Seq.empty)
+      .foldLeft(getColumn) { (columnMetaData: Column, transformation: RuleEngine) =>
+        transformation match {
+          case ToLower => lower(columnMetaData)
+          case ToUpper => upper(columnMetaData)
+          case RegexExp(pattern, replacement) => regexp_replace(columnMetaData, pattern, replacement)
+          case _ => columnMetaData
+        }
+      }
 
+    /**
+     * Extracts decimal from dataType and set its value as decimal precision
+     * @param dataType String
+     * @return
+     */
     private def getDecimalDataType(dataType: String): DecimalType = {
       val split = dataType.split("\\(")
       try {

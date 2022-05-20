@@ -41,12 +41,12 @@ class ConfigurationSpec extends AnyFlatSpec with BeforeAndAfterAll {
           sourceName = "person_name",
           targetName = Some("name"),
           targetType = Some("string"),
-          transformation = Some(Pipeline.ToUpper)),
+          transformation = Some(Seq(Pipeline.ToUpper))),
         Pipeline.ColumnMetaData(
           sourceName = "email_address",
           targetName = Some("email_id"),
           targetType = Some("string"),
-          transformation = Some(Pipeline.RegexExp(pattern = "some_pattern", replacement = "some_replacement")))
+          transformation = Some(Seq(Pipeline.RegexExp(pattern = "some_pattern", replacement = "some_replacement"))))
       )
     )
     assert(config == expectedOutput)

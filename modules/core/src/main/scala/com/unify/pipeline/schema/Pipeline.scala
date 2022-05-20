@@ -22,7 +22,7 @@ object Pipeline {
                              sourceName: String,
                              targetName: Option[String],
                              targetType: Option[String],
-                             transformation: Option[RuleEngine])
+                             transformation: Option[Seq[RuleEngine]])
 
   sealed trait RuleEngine
 
