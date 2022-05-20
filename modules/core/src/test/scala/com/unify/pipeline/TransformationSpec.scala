@@ -6,15 +6,17 @@ import com.unify.pipeline.transform.Transform
 
 class TransformationSpec extends SparkSessionBaseSpec with DefaultConfig with Comparison {
 
-  "transformation" should "work" in {
-    val readDf = FileReader.read(spark, unifyConfig)
-    val columnList = Transform(pipelinePayload)
-    val actualDf = readDf.select(columnList: _*)
-    val expectedDf = FileReader.read(spark,
-      "orc",
-      "modules/core/src/test/resources/data/output/transformation/base_example/")
+  "transformation" should {
+    "return dataframe with correct output" in {
+      val readDf = FileReader.read(spark, unifyConfig)
+      val columnList = Transform(pipelinePayload)
+      val actualDf = readDf.select(columnList: _*)
+      val expectedDf = FileReader.read(spark,
+        "orc",
+        "modules/core/src/test/resources/data/output/transformation/base_example/")
 
-    assert(compare(actualDf, expectedDf))
+      assert(compare(actualDf, expectedDf))
+    }
   }
 
 }

@@ -10,14 +10,16 @@ class FileInputSpec extends SparkSessionBaseSpec with DefaultConfig {
   private val validateData = (df: DataFrame) =>
     (df.select("name").collect().map(_.getString(0)) diff expectedNames).length == 0
 
-  "FileReader" should "read data via config" in {
-    val df = FileReader.read(spark, unifyConfig)
-    assert(validateData(df))
-  }
+  "FileReader" should {
+    "read data via config" in {
+      val df = FileReader.read(spark, unifyConfig)
+      assert(validateData(df))
+    }
 
-  "FileReader" should "read data via params" in {
-    val df = FileReader.read(spark, "orc", "modules/core/src/test/resources/data/input/file_read_orc/")
-    assert(validateData(df))
+    "read data via params" in {
+      val df = FileReader.read(spark, "orc", "modules/core/src/test/resources/data/input/file_read_orc/")
+      assert(validateData(df))
+    }
   }
 
 }

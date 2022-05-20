@@ -1,6 +1,5 @@
 package com.unify.pipeline.test.util
 
-import org.scalatest.BeforeAndAfterAll
-import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.wordspec.AnyWordSpec
 
-trait BaseSpec extends AnyFlatSpec with BeforeAndAfterAll
+trait BaseSpec extends AnyWordSpec

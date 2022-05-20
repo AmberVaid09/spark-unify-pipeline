@@ -6,7 +6,4 @@ trait SparkSessionBaseSpec extends BaseSpec {
 
   val spark: SparkSession = SparkSession.builder().master("local[*]").getOrCreate()
 
-//  override def afterAll(): Unit =
-//    spark.close()
-
 }
